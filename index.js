@@ -56,3 +56,8 @@ app.post("/relay", async (req, res) => {
 app.listen(PORT, () => {
   console.log("Relay listening on port", PORT);
 });
+
+app.get("/relay", (req, res) => {
+  res.send("OK - utilise POST /relay avec JSON");
+});
+
