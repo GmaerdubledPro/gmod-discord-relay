@@ -2,9 +2,10 @@
   "name": "gmod-discord-relay",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "express": "^4.19.2",
-    "node-fetch": "^3.3.2"
+    "express": "^4.19.2"
   }
 }
