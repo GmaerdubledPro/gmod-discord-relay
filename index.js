@@ -1,5 +1,4 @@
 const express = require("express");
-const fetch = require("node-fetch");
 
 const app = express();
 app.use(express.json());
@@ -29,23 +28,27 @@ app.post("/relay", async (req, res) => {
         .replace(/@/g, "@\u200B")
         .slice(0, 1800);
 
-    const content = `**[${safe(server || "GMod")}]** **${safe(player)}** (${safe(steamid || "UNKNOWN")}) : ${safe(message)}`;
+    const content =
+      `**[${safe(server || "GMod")}]** ` +
+      `**${safe(player)}** ` +
+      `(${safe(steamid || "UNKNOWN")}) : ` +
+      `${safe(message)}`;
 
-    const r = await fetch(DISCORD_WEBHOOK_URL, {
+    const response = await fetch(DISCORD_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content }),
     });
 
-    if (!r.ok) {
-      const t = await r.text();
-      console.error("Discord error:", r.status, t);
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Discord error:", response.status, text);
       return res.status(500).json({ error: "discord failed" });
     }
 
     res.json({ ok: true });
-  } catch (e) {
-    console.error("Relay error:", e);
+  } catch (err) {
+    console.error("Relay error:", err);
     res.status(500).json({ error: "internal" });
   }
 });
